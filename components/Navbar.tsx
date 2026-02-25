@@ -9,7 +9,8 @@ function Navbar() {
     display: "flex", 
     justifyContent: "space-between", 
     alignItems: "center", 
-    padding: "1rem", 
+    padding: "0.5rem", 
+    height: "60px",
     backgroundColor: "#f5f5f5" 
     }}>
      <h1>My Wallet Dashboard</h1>   
