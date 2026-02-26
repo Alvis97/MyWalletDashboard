@@ -1,7 +1,9 @@
 "use client";
 
 import { Bitcoin, Ticket, Wallet } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
+
+import caruselStyle from "../style/carusel.module.scss";
 
 function Carusell() {
 const [currentCard, setCurrentCard] = useState<"Amount" | "Tokens" | "NFT">("Amount");
@@ -19,56 +21,37 @@ if (container) {
 }, [currentCard]);
 
   return (
-    <div style={{
-        width: "100vw",
-        height:"80vh",
-        backgroundColor: "pink",
-        margin: "0, 5vw",
-    }}>
+    <div
+    className="w-full h-fit"
+    >
         <div 
         ref={scrollRef}
-        style={{
-            display:"flex",
-            overflowX: "auto",
-            scrollBehavior:"smooth",
-            gap: "1rem",
-            padding:"1rem",
-        }}>
+        className='flex overflow-x-auto scroll-smooth gap-15 pt-5 pb-7 p-10'
+        >
 
             <div
-            style={{
-                minWidth: "100%",
-                height: "75vh",
-                padding:"1rem",
-                backgroundColor: currentCard === "Amount" ? "#d1f7c4" : "#f5f5f5",
-                borderRadius: "14px",
-                textAlign:"center",
-            }}>
+            className='
+            card-base
+            min-w-full h-[70vh] p-4 text-center
+            '>
               <h3>Amount</h3>
               <p>1.5 SOL</p>
             </div>
 
             <div
-            style={{
-                minWidth: "100%",
-                height: "70vh",
-                padding:"1rem",
-                backgroundColor: currentCard === "Tokens" ? "#d1f7c4" : "#f5f5f5",
-                borderRadius: "14px",
-                textAlign:"center",
-            }}>
+             className='
+            card-base
+            min-w-full h-[70vh] p-4 text-center
+            '>
               <h3>Tokens</h3>
               <p>3</p>
             </div>
 
             <div
-            style={{
-                minWidth: "100%",
-                padding:"1rem",
-                backgroundColor: currentCard === "NFT" ? "#d1f7c4" : "#f5f5f5",
-                borderRadius: "14px",
-                textAlign:"center",
-            }}>
+         className='
+            card-base
+            min-w-full h-[70vh] p-4 text-center
+            '>
               <h3>Tokens</h3>
               <p>3</p>
             </div>
@@ -77,15 +60,7 @@ if (container) {
         </div>
         
         <div
-        style={{
-            backgroundColor:"pink",
-            width: "200px",
-            margin:"auto",
-            display: "flex",
-            justifyContent:"space-between",
-            padding: "1rem",
-            borderRadius:"100px",
-        }}>
+        className='card-base w-[200px] m-auto flex justify-between items-center p-4 rounded-full'>
             <button onClick={() => setCurrentCard("Amount")}><Wallet/></button>
             <button onClick={() => setCurrentCard("Tokens")}><Ticket/></button>
             <button onClick={() => setCurrentCard("NFT")}><Bitcoin/></button>

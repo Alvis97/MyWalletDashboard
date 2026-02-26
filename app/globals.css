@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #E7E7E7;
   --foreground: #171717;
 }
 
@@ -14,8 +14,26 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #343434;
     --foreground: #ededed;
+  }
+}
+
+@layer components {
+  .card-base {
+    @apply rounded-2xl transition-all duration-300;
+
+    background: var(--background);
+
+    box-shadow:
+      -6px -6px 12px rgba(255, 255, 255, 0.6),  
+       6px  6px 12px rgba(0, 0, 0, 0.163);       
+  }
+
+  .dark .card-base {
+    box-shadow:
+      -6px -6px 12px rgba(255, 255, 255, 0.03),
+       6px  6px 12px rgba(0, 0, 0, 0.6);
   }
 }
 
