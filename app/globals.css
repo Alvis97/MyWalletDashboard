@@ -38,7 +38,7 @@
 }
 
 .wallet-adapter-button.wallet-adapter-button-trigger {
-  @apply rounded-2xl transition-all duration-300 px-6 py-3 text-sm font-medium;
+  @apply rounded-full transition-all duration-300 px-6 py-3 text-sm font-medium;
   color: var(--foreground) !important;
   background: var(--background);
 
