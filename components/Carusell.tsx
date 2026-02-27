@@ -32,6 +32,7 @@ if (container) {
         scroll-smooth
         snap-x snap-mandatory
         p-10
+        pt-5
         gap-16'
         >
 

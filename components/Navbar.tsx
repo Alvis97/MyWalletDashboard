@@ -6,7 +6,7 @@ import WalletAdapter from './WalletAdapter'
 function Navbar() {
   return (
     <nav
-    className='flex justify-between items-center p-2'>
+    className='flex justify-between items-center p-4'>
      <h1>My Wallet Dashboard</h1>   
      <WalletAdapter/>   
     </nav>
