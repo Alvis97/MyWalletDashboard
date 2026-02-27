@@ -22,17 +22,23 @@ if (container) {
 
   return (
     <div
-    className="w-full h-fit"
+    className="flex flex-col w-full h-full"
     >
         <div 
         ref={scrollRef}
-        className='flex overflow-x-auto scroll-smooth gap-15 pt-5 pb-7 p-10'
+        className='flex
+        flex-1
+        overflow-x-auto
+        scroll-smooth
+        snap-x snap-mandatory
+        p-10
+        gap-16'
         >
 
             <div
             className='
             card-base
-            min-w-full h-[70vh] p-4 text-center
+            min-w-full h-full p-4 text-center
             '>
               <h3>Amount</h3>
               <p>1.5 SOL</p>
@@ -41,7 +47,7 @@ if (container) {
             <div
              className='
             card-base
-            min-w-full h-[70vh] p-4 text-center
+            min-w-full h-full  p-4 text-center
             '>
               <h3>Tokens</h3>
               <p>3</p>
@@ -50,7 +56,7 @@ if (container) {
             <div
          className='
             card-base
-            min-w-full h-[70vh] p-4 text-center
+            min-w-full h-full p-4 text-center
             '>
               <h3>Tokens</h3>
               <p>3</p>
@@ -60,7 +66,7 @@ if (container) {
         </div>
         
         <div
-        className='card-base w-[200px] m-auto flex justify-between items-center p-4 rounded-full'>
+        className='card-base w-[200px] mx-auto mb-6 flex justify-between items-center p-4 rounded-full'>
             <button onClick={() => setCurrentCard("Amount")}><Wallet/></button>
             <button onClick={() => setCurrentCard("Tokens")}><Ticket/></button>
             <button onClick={() => setCurrentCard("NFT")}><Bitcoin/></button>

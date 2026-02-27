@@ -25,13 +25,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={
-          `h-screen overflow-hidden bg-black
+          `flex flex-col min-h-screen
           ${geistSans.variable} ${geistMono.variable} antialiased`
         }
         >
         <Navbar/>
-           {children}
-       
+        <main className="flex-1">
+          {children}
+        </main>
       </body>
     </html>
   );
