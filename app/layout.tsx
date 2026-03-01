@@ -29,10 +29,12 @@ export default function RootLayout({
           ${geistSans.variable} ${geistMono.variable} antialiased`
         }
         >
-        <Navbar/>
-        <main className="flex-1">
-          {children}
-        </main>
+          <WalletAdapter>
+            <Navbar/>
+            <main className="flex-1">
+            {children}
+            </main>
+          </WalletAdapter>
       </body>
     </html>
   );

@@ -25,7 +25,6 @@ const WalletAdapter: React.FC<SolanaWalletProps> = ({children}) => {
    <ConnectionProvider endpoint={endPoint}>
     <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-            <WalletMultiButton/>
         {children}
         </WalletModalProvider>
     </WalletProvider>
