@@ -5,6 +5,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { clusterApiUrl, Connection } from '@solana/web3.js';
 import { Wallet } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import TransactionHistory from './TransactionHistory';
 
 function WalletInfoCard() {
 
@@ -47,7 +48,7 @@ function WalletInfoCard() {
         <div>
            <p>Transactions:</p>
            <div>
-            <p>Scroll div</p>
+            <TransactionHistory/>
            </div>
         </div>
     </div>

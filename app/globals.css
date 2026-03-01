@@ -30,11 +30,13 @@
        6px  6px 12px rgba(0, 0, 0, 0.163);       
   }
 
-  .dark .card-base {
+ @media (prefers-color-scheme: dark) {
+  .card-base {
     box-shadow:
-      -6px -6px 12px rgba(255, 255, 255, 0.03),
-       6px  6px 12px rgba(0, 0, 0, 0.6);
+      -6px -6px 12px rgba(255, 255, 255, 0.152),
+       6px  6px 12px rgba(0, 0, 0, 0.782);
   }
+}
 }
 
 .wallet-adapter-button.wallet-adapter-button-trigger {
