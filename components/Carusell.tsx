@@ -30,6 +30,7 @@ if (container) {
         className='flex
         flex-1
         overflow-x-auto
+        overflow-y-hidden
         scroll-smooth
         snap-x snap-mandatory
         p-10
