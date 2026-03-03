@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Unbounded } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import WalletAdapter from "@/components/WalletAdapter";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const unbounded = Unbounded ({
   subsets: ["latin"],
+  weight: ["200", "300"],
+  variable: "--font-unbounded",
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-
 
 export default function RootLayout({
   children,
@@ -26,7 +20,7 @@ export default function RootLayout({
       <body
         className={
           `flex flex-col min-h-screen
-          ${geistSans.variable} ${geistMono.variable} antialiased`
+          ${unbounded.className} tracking-tight antialiased`
         }
         >
           <WalletAdapter>

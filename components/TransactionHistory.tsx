@@ -46,21 +46,21 @@ useEffect(() => {
 
           const status = tx.meta?.err === null ? "Completed" : tx.meta?.err ? "Failed" : "Pending"
 
+          const statusColor =
+            status === "Completed"
+              ? "text-emerald-700"
+              : status === "Failed"
+                ? "text-amber-700"
+                : "text-mauve-400";
+
           return (
-          <li key={i} className='flex justify-between'>
-            <span>{ type === "Deposit" ? <MoveUp size={16} className="inline-block"/> : <MoveDown size={16} className="inline-block"/>}{type}</span>
-            <span>{amount} SOL</span>
-            <span
-            className={
-              status === "Completed" 
-                ? "text-green-500" 
-                : status === "Failed" 
-                  ? "text-red-500" 
-                  : "text-gray-300"
-            }
-          >
-            {status}
-          </span>
+          <li key={i} className='card-inside flex justify-between p-3 my-1'>
+            <span className="font-light text-xs  flex items-center gap-1">
+              { type === "Deposit" ? <MoveUp size={16}/> : <MoveDown size={16}/> }
+              {type}
+            </span>
+            <span className='font-light text-xs'>{amount} SOL</span>
+            <span className={`${statusColor} font-light text-xs`}>{status}</span>
           </li>
           )
       

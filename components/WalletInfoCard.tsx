@@ -36,18 +36,20 @@ function WalletInfoCard() {
     }, [publicKey]);
 
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col justify-between h-full min-h-0 p-5'>
         <div className='w-full flex justify-end'>
-            <Wallet/>
+            <Wallet size={40}/>
         </div>
-        <div className='w-full flex flex-col text-left'>
-            <p>Saldo:</p>
-            <p>{solBalance.toFixed(2)} sol</p>
-            <p>Total in US: ${usdValue.toFixed(2)}</p>
+
+        <div className='w-full flex flex-col text-left p-5'>
+            <p className='font-extralight text-xs'>Saldo:</p>
+            <p className='font-light text-4xl'>{solBalance.toFixed(2)} sol</p>
+            <p className='font-extralight text-s'>Total in US: ${usdValue.toFixed(2)}</p>
         </div>
-        <div className='flex flex-col flex-1 overflow-hidden'>
-           <p className='text-left'>Transactions:</p>
-           <div className='flex-1 overflow-y-auto overflow-x-hidden'>
+
+        <div className='card-inset p-5 flex flex-col flex-1 min-h-0'>
+           <p className='font-extralight text-xs text-left pb-4'>Transactions:</p>
+           <div className='flex-1 min-h-0 overflow-y-auto'>
             <TransactionHistory/>
            </div>
         </div>
