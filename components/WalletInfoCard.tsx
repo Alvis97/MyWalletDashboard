@@ -2,25 +2,31 @@
 
 import { fetchSolPrice } from '@/services/priceService';
 import { useWallet } from '@solana/wallet-adapter-react'
-import { clusterApiUrl, Connection } from '@solana/web3.js';
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 import { Wallet } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import TransactionHistory from './TransactionHistory';
 
 function WalletInfoCard() {
 
-    const { publicKey, connected } = useWallet();
+    const { publicKey } = useWallet();
     const [solBalance, setSolBalance] = useState(0);
     const [usdValue, setUsdValue] = useState(0);
+    const [transactionDate, setTransactionDate] = useState(0);
 
     //Get amount
     useEffect(() => {
         const fetchBalance = async () => {
             if (!publicKey) return
 
-            //get balance
-            const connection = new Connection(clusterApiUrl('devnet'));
-            const lamports = await connection.getBalance(publicKey);
+            //get balance från test wallet
+            const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
+            const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!);
+            const lamports = await connection.getBalance(TEST_WALLET);
+
+            //Get Balance from logged in wallet
+            // const lamports = await connection.getBalance(publicKey);
+
             const sol = lamports / 1_000_000_000;
             setSolBalance(sol)
 
@@ -31,6 +37,7 @@ function WalletInfoCard() {
             if (price) {
                 setUsdValue(sol * price)
             }
+       
         }
         fetchBalance();
     }, [publicKey]);
@@ -42,9 +49,9 @@ function WalletInfoCard() {
         </div>
 
         <div className='w-full flex flex-col text-left p-5'>
-            <p className='font-extralight text-xs'>Saldo:</p>
+            <p className='font-extralight text-xs'>Balance:</p>
             <p className='font-light text-4xl'>{solBalance.toFixed(2)} sol</p>
-            <p className='font-extralight text-s'>Total in US: ${usdValue.toFixed(2)}</p>
+            <p className='font-extralight text-s'>Total value: ${usdValue.toFixed(2)}</p>
         </div>
 
         <div className='card-inset p-5 flex flex-col flex-1 min-h-0'>

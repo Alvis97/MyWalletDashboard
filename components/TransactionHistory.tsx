@@ -1,7 +1,7 @@
 "use client"
 
 import { useWallet } from '@solana/wallet-adapter-react'
-import { clusterApiUrl, Connection, TransactionResponse } from '@solana/web3.js';
+import { clusterApiUrl, Connection, PublicKey, TransactionResponse } from '@solana/web3.js';
 import { MoveDown, MoveUp } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 
@@ -13,8 +13,14 @@ useEffect(() => {
    if (!publicKey) return
 
    const fetchTransactions = async () => {
-    const connection = new Connection(clusterApiUrl("devnet"));
-    const signatures = await connection.getSignaturesForAddress(publicKey, { limit: 10 });
+
+    //Test for test wallet Helius
+    const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
+    const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!);
+    const signatures = await connection.getSignaturesForAddress(TEST_WALLET, { limit: 10 });
+
+    // för mainnet
+    // const signatures = await connection.getSignaturesForAddress(publicKey, { limit: 10 });
 
     const txs = await Promise.all(
       signatures.map(sig=> connection.getTransaction(sig.signature))
@@ -53,6 +59,10 @@ useEffect(() => {
                 ? "text-amber-700"
                 : "text-mauve-400";
 
+          const date = tx.blockTime
+          ? new Date(tx.blockTime * 1000).toLocaleDateString()
+          : "Unknown";    
+
           return (
           <li key={i} className='card-inside flex justify-between p-3 my-1'>
             <span className="font-light text-xs  flex items-center gap-1">
@@ -60,6 +70,7 @@ useEffect(() => {
               {type}
             </span>
             <span className='font-light text-xs'>{amount} SOL</span>
+            <span className='font-light text-xs' >{date}</span>
             <span className={`${statusColor} font-light text-xs`}>{status}</span>
           </li>
           )
