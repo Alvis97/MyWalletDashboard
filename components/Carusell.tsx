@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import caruselStyle from "../style/carusel.module.scss";
 import WalletInfoCard from './WalletInfoCard';
 import TokenCard from './TokenCard';
+import NFTcard from './NFTcard';
 
 function Carusell() {
 const [currentCard, setCurrentCard] = useState<"Amount" | "Tokens" | "NFT">("Amount");
@@ -60,11 +61,8 @@ if (container) {
             card-base
             min-w-full h-full p-4 text-center
             '>
-              <h3>Tokens</h3>
-              <p>3</p>
+              <NFTcard/>
             </div>
-
-     
         </div>
         
         <div
