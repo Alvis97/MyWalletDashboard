@@ -49,7 +49,7 @@ function WalletInfoCard() {
         </div>
 
         <div className='w-full flex flex-col text-left p-5'>
-            <p className='font-extralight text-xs'>Balance:</p>
+            <p className='font-extralight text-s'>Balance:</p>
             <p className='font-light text-4xl'>{solBalance.toFixed(2)} sol</p>
             <p className='font-extralight text-s'>Total value: ${usdValue.toFixed(2)}</p>
         </div>
