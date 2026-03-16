@@ -7,10 +7,12 @@ import caruselStyle from "../style/carusel.module.scss";
 import WalletInfoCard from './WalletInfoCard';
 import TokenCard from './TokenCard';
 import NFTcard from './NFTcard';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 function Carusell() {
 const [currentCard, setCurrentCard] = useState<"Amount" | "Tokens" | "NFT">("Amount");
 const scrollRef = useRef<HTMLDivElement>(null);
+const { publicKey } = useWallet();
 
 const cardOrder: ("Amount" | "Tokens" | "NFT")[] = ["Amount", "Tokens", "NFT"];
 
@@ -23,7 +25,16 @@ if (container) {
 }
 }, [currentCard]);
 
+if (!publicKey) {
+  return(
+    <div className='flex flex-col items-center justify-center h-full gap-4'>
+      <p className='text-gray-400'>Connect your wallet to get started</p>
+    </div>
+  )
+}
+
   return (
+    // if (!publickey) {div Log in to your wallet div}
     <div
     className="flex flex-col w-full h-full"
     >
@@ -35,15 +46,20 @@ if (container) {
         overflow-y-hidden
         scroll-smooth
         snap-x snap-mandatory
-        p-10
+        p-4
         pt-5
-        gap-16'
+        pb-7
+        gap-9
+        md:p-10
+        md:pt-5
+        md:gap-16'
         >
 
             <div
             className='
             card-base
-            min-w-full h-full p-4 text-center
+            min-w-full h-full p-0 text-center
+            md:p-4
             '>
               <WalletInfoCard/>
             </div>
@@ -51,7 +67,8 @@ if (container) {
             <div
              className='
             card-base
-            min-w-full h-full  p-4 text-center
+            min-w-full h-full  p-0 text-center
+            md:p-4
             '>
               <TokenCard/>
             </div>
@@ -59,14 +76,17 @@ if (container) {
             <div
          className='
             card-base
-            min-w-full h-full p-4 text-center
+            min-w-full h-full p-0 text-center
+            md:p-4
             '>
               <NFTcard/>
             </div>
+
         </div>
         
         <div
-        className='card-base w-[200px] mx-auto mb-6 flex justify-between items-center p-4 rounded-full'>
+        className='card-base w-[170px] mx-auto mb-2 flex justify-between items-center p-3 rounded-full
+        md:mb-6 md:p-4 md:w-[200px]'>
             <button onClick={() => setCurrentCard("Amount")}><Wallet/></button>
             <button onClick={() => setCurrentCard("Tokens")}><Ticket/></button>
             <button onClick={() => setCurrentCard("NFT")}><Bitcoin/></button>

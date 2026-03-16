@@ -52,8 +52,8 @@
  @media (prefers-color-scheme: dark) {
   .card-inset {
     box-shadow:
-      -6px -6px 12px rgba(255, 255, 255, 0.152),
-       6px  6px 12px rgba(0, 0, 0, 0.782);
+      -4px -4px 12px rgba(255, 255, 255, 0.111),
+       6px  6px 12px rgba(0, 0, 0, 0.646);
   }
 }
 }
@@ -71,9 +71,12 @@
 
  @media (prefers-color-scheme: dark) {
   .card-inside {
+
+  background: rgba(159, 159, 159, 0.089);
+
     box-shadow:
-      inset -6px -6px 12px rgba(255, 255, 255, 0.152),
-      inset 6px  6px 12px rgba(0, 0, 0, 0.782);
+      inset -2px -2px 8px rgba(255, 255, 255, 0.22),
+      inset 4px 4px 8px rgb(0, 0, 0);
   }
 }
 }
@@ -90,11 +93,15 @@
      6px  6px 12px rgba(0, 0, 0, 0.163);
 }
 
-.dark .wallet-adapter-button.wallet-adapter-button-trigger {
-  box-shadow:
-    -6px -6px 12px rgba(255, 255, 255, 0.03),
-     6px  6px 12px rgba(0, 0, 0, 0.6);
+@media (prefers-color-scheme: dark) {
+  .wallet-adapter-button.wallet-adapter-button-trigger {
+    box-shadow:
+      -5px -5px 12px rgba(255, 255, 255, 0.152),
+       6px  6px 12px rgba(0, 0, 0, 0.782);
+  }
 }
+
+
 
 .wallet-adapter-button:not([disabled]):hover {
   transform: translateY(-2px);

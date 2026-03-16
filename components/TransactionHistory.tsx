@@ -54,9 +54,9 @@ useEffect(() => {
 
           const statusColor =
             status === "Completed"
-              ? "text-emerald-700"
+              ? "text-emerald-700 dark:text-green-500"
               : status === "Failed"
-                ? "text-amber-700"
+                ? "text-amber-700 dark:text-red-500"
                 : "text-mauve-400";
 
           const date = tx.blockTime
@@ -64,14 +64,14 @@ useEffect(() => {
           : "Unknown";    
 
           return (
-          <li key={i} className='card-inside flex justify-between p-3 my-1'>
-            <span className="font-light text-xs  flex items-center gap-1">
-              { type === "Deposit" ? <MoveUp size={16}/> : <MoveDown size={16}/> }
+          <li key={i} className='card-inside flex justify-between p-2.5 my-1 md:p-3'>
+            <span className="font-light text-[10px] md:text-xs  flex items-center gap-1">
+              { type === "Deposit" ? <MoveUp size={14}/> : <MoveDown size={12}/> }
               {type}
             </span>
-            <span className='font-light text-xs'>{amount} SOL</span>
-            <span className='font-light text-xs' >{date}</span>
-            <span className={`${statusColor} font-light text-xs`}>{status}</span>
+            <span className='font-light text-[10px] md:text-xs'>{amount} SOL</span>
+            <span className='font-light text-[10px] md:text-xs' >{date}</span>
+            <span className={`${statusColor} font-light text-[10px] md:text-xs`}>{status}</span>
           </li>
           )
       

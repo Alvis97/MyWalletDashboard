@@ -43,19 +43,19 @@ function WalletInfoCard() {
     }, [publicKey]);
 
   return (
-    <div className='flex flex-col justify-between h-full min-h-0 p-5'>
+    <div className='flex flex-col justify-between h-full min-h-0 p-4 md:p-5'>
         <div className='w-full flex justify-end'>
-            <Wallet size={40}/>
+            <Wallet size={30}/>
         </div>
 
-        <div className='w-full flex flex-col text-left p-5'>
-            <p className='font-extralight text-s'>Balance:</p>
-            <p className='font-light text-4xl'>{solBalance.toFixed(2)} sol</p>
-            <p className='font-extralight text-s'>Total value: ${usdValue.toFixed(2)}</p>
+        <div className='w-full flex flex-col flex-1 text-left justify-end p-3 pb-6 md:p-5'>
+            <p className='font-extralight text-xs md:text-s'>Balance:</p>
+            <p className='font-light text-2xl md:text-4xl'>{solBalance.toFixed(2)} sol</p>
+            <p className='font-extralight text-xs md:text-s'>Total value: ${usdValue.toFixed(2)}</p>
         </div>
 
-        <div className='card-inset p-5 flex flex-col flex-1 min-h-0'>
-           <p className='font-extralight text-xs text-left pb-4'>Transactions:</p>
+        <div className='card-inset p-3 flex flex-col h-[70%] md:p-5'>
+           <p className='font-extralight text-xs text-left pb-2 md:pb-4'>Transactions:</p>
            <div className='flex-1 min-h-0 overflow-y-auto'>
             <TransactionHistory/>
            </div>

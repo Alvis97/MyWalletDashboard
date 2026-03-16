@@ -57,26 +57,26 @@ function TokenCard() {
     }, 0)
 
   return (
-    <div className='flex flex-col justify-between h-full min-h-0 p-5'>
+    <div className='flex flex-col justify-between h-full min-h-0 p-4 md:p-5'>
         <div className='flex justify-end'>
-            <Ticket size={40}/>
+            <Ticket size={30}/>
         </div>
 
-        <div className='flex flex-col justify-start pt-10 pb-5 w-full '>
-            <h2 className='text-left font-extralight text-s'>Token Balance:</h2>
+        <div className='flex flex-col flex-1 justify-end p-3 pb-6 pt-7 w-full pb-4 px-2 md:pb-5 md:pt-10 md:px-0'>
+            <h2 className='text-left font-extralight text-xs md:text-s'>Token Balance:</h2>
             <div className='flex justify-between items-baseline w-full'>
-                <span className='font-light text-4xl'>$ {totalValue.toFixed(2)}</span>
-                <div className='flex justify-between items-baseline card-inside px-3 py-1 w-[120px]'>
-                    <p className={`text-xl ${totalChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                <span className='font-light text-2xl md:text-4xl'>$ {totalValue.toFixed(2)}</span>
+                <div className='flex justify-between items-baseline card-inside px-2 py-0 w-[90px] md:px-3 md:py-1 md:w-[120px]'>
+                    <p className={`text-s md:text-xl ${totalChange >= 0 ? 'text-emerald-700 dark:text-green-500' : 'text-amber-700 dark:text-red-500'}`}>
                         {totalChange >= 0 ? '+' : ''}{totalChange.toFixed(2)} 
                     </p>
-                    <p className='text-[15px] text-black'> 24h</p>
+                    <p className='text-[10px] text-black dark:text-white'> 24h</p>
                 </div>
             </div>
         </div>
       
-        <div className='card-inset px-5 pb-5 pt-3 flex flex-col flex-1 min-h-0'>
-            <div className='flex justify-between w-full px-3 font-extralight text-xs pb-2'>
+        <div className='card-inset px-3 pb-5 pt-3 flex flex-col h-[70%] min-h-0 p-3 md:px-5 pb-5 pt-3'>
+            <div className='flex justify-between w-full px-3 font-extralight text-[10px] pb-2 md:text-xs'>
                 <span>#</span>
                 <span className='font-light'>Token</span>
                 <span>Price</span>
@@ -89,13 +89,13 @@ function TokenCard() {
                     const holdings = token.amount / 10 ** token.decimals
                     const value = holdings * token.usdPrice
                     return (
-                        <li key={index} className='card-inside flex justify-between p-3 my-1 text-xs'>
+                        <li key={index} className='card-inside flex justify-between p-3 my-1 text-[10px] md:text-xs'>
                         <span className='font-extralight' >{index + 1}</span>
                         <span>{token.mint.slice(0, 6)}...</span>
                         <span className='font-extralight'>${token.usdPrice.toFixed(4)}</span>
                         <span className='font-extralight'>{holdings.toFixed(2)}</span>
                         <span>${value.toFixed(2)}</span>
-                        <span className={token.priceChange24h > 0 ? "text-green-500" : "text-red-500"}>
+                        <span className={token.priceChange24h > 0 ? "text-emerald-700 dark:text-green-500" : "text-amber-700 dark:text-red-500"}>
                             {token.priceChange24h.toFixed(2)}%
                         </span>
                     </li>

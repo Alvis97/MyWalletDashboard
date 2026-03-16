@@ -27,8 +27,10 @@ export async function GET(request: NextRequest ) {
     const data = await response.json();
     const nfts = data.result.items.filter(
         (item: any) =>
-        (item.interface === 'V1_NFT' || item.interface == 'MplCoreAsset')
-        //item.content?.files?.legth > 0 //Needs an image
+        (item.interface === 'V1_NFT' || item.interface == 'MplCoreAsset' &&
+         item.content?.files?.legth > 0 //Needs an image
+        )
+      
     );
   return NextResponse.json(nfts);
 }
