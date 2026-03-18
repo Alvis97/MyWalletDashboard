@@ -13,6 +13,7 @@ function WalletInfoCard() {
     const [solBalance, setSolBalance] = useState(0);
     const [usdValue, setUsdValue] = useState(0);
     const [transactionDate, setTransactionDate] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     //Get amount
     useEffect(() => {
@@ -37,7 +38,8 @@ function WalletInfoCard() {
             if (price) {
                 setUsdValue(sol * price)
             }
-       
+            
+            setLoading(false);
         }
         fetchBalance();
     }, [publicKey]);
@@ -50,8 +52,19 @@ function WalletInfoCard() {
 
         <div className='w-full flex flex-col flex-1 text-left justify-end p-3 pb-6 md:p-5'>
             <p className='font-extralight text-xs md:text-s'>Balance:</p>
-            <p className='font-light text-2xl md:text-4xl'>{solBalance.toFixed(2)} sol</p>
-            <p className='font-extralight text-xs md:text-s'>Total value: ${usdValue.toFixed(2)}</p>
+
+            {loading ? (
+                <>
+                <div className='animate-pulse bg-neutral-300 rounded-lg h-8 w-[150px] mb-2'/>
+                <div className='animate-pulse bg-neutral-300 rounded-lg h-4 w-[100px]'/>
+                </>
+            ) : (
+                <>
+                <p className='font-light text-2xl md:text-4xl'>{solBalance.toFixed(2)} sol</p>
+                <p className='font-extralight text-xs md:text-s'>Total value: ${usdValue.toFixed(2)}</p>
+                </>
+            )}
+           
         </div>
 
         <div className='card-inset p-3 flex flex-col h-[70%] md:p-5'>

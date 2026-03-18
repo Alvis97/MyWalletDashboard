@@ -4,27 +4,45 @@ import React, { useEffect, useState } from 'react'
 import { fetchNFTs } from '../services/nftService'
 
 function NftGallery() {
-    const [modalVisable, setModalVisable] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
     const [nfts, setNfts] = useState([]);
     const [selectedNft, setSelectedNft] = useState<any>(null);
     const testWallet = process.env.NEXT_PUBLIC_TEST_WALLET;
+    const [loading, setLoading ] = useState(true); 
+
 
     useEffect(() => {
+        if (!testWallet) return;
+
          fetchNFTs(testWallet)
-          .then((data) => {
-            console.log("NFTs:", data)
-            setNfts(data);
-          })
-    }, []);
+          .then((data) => setNfts(data))
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false));
+    }, [testWallet]);
+
+    if (loading){
+        return(
+            <div className='flex flex-wrap gap-4 justify-center'>
+                {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white p-4 m-5 rounded-sm'>
+                        <div className='animate-pulse bg-neutral-300 h-[200px] w-[220px] rounded-xs'></div>
+                        <div className='animate-pulse bg-neutral-300 w-full h-[25px]'></div>
+                    </div>
+                ))}
+
+            </div>
+        )
+    }
+
 
   return (
     <div className='flex flex-wrap gap-4'>
 
-     {modalVisable && (
+     {modalVisible && (
     // backdrop
     <div 
         className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'
-        onClick={() => setModalVisable(false)}
+        onClick={() => setModalVisible(false)}
     >
         {/* modal box */}
         <div 
@@ -33,7 +51,7 @@ function NftGallery() {
         >
             <button 
                 className='float-right cursor-pointer text-gray-500 mb-1  hover:text-black'
-                onClick={() => setModalVisable(false)}
+                onClick={() => setModalVisible(false)}
             >✕</button>
 
             <img 
@@ -52,16 +70,18 @@ function NftGallery() {
         <ul className='flex flex-wrap gap-4 list-none p-0 m-0 justify-center md:justify-between'>
             {nfts.map((nft: any) => (
             <li key={nft.id}>
-                <div onClick={() => { setModalVisable(true); setSelectedNft(nft); }}
-                    className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white p-4 m-5 rounded-sm text-black hover:scale-105 transition-transform duration-200 cursor-pointer'>
+                <div 
+                    onClick={() => { setModalVisible(true); setSelectedNft(nft); }}
+                    className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white p-4 m-5 rounded-sm text-black hover:scale-105 transition-transform duration-200 cursor-pointer'
+                >
                     <img 
-                    src={nft.content?.files[0]?.uri}
-                    className='h-[200px] w-[220px] rounded-xs' alt="NFT image" />
+                    src={nft.content?.files?.[0]?.uri}
+                    className='h-[200px] w-[220px] rounded-xs' alt="NFT image" 
+                    />
                     <span>{nft.content?.metadata?.name}</span>
                 </div>
-            </li>
-            ))}
-         
+            </li>    
+            ))}    
         </ul>
       
 
