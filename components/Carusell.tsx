@@ -1,9 +1,7 @@
 "use client";
 
-import { Bitcoin, Ticket, Wallet } from 'lucide-react';
+import { Image, Coins, Ticket, Wallet } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-
-import caruselStyle from "../style/carusel.module.scss";
 import WalletInfoCard from './WalletInfoCard';
 import TokenCard from './TokenCard';
 import NFTcard from './NFTcard';
@@ -34,7 +32,6 @@ if (!publicKey) {
 }
 
   return (
-    // if (!publickey) {div Log in to your wallet div}
     <div
     className="flex flex-col w-full h-full"
     >
@@ -87,9 +84,24 @@ if (!publicKey) {
         <div
         className='card-base w-[170px] mx-auto mb-2 flex justify-between items-center p-3 rounded-full
         md:mb-6 md:p-4 md:w-[200px]'>
-            <button onClick={() => setCurrentCard("Amount")}><Wallet/></button>
-            <button onClick={() => setCurrentCard("Tokens")}><Ticket/></button>
-            <button onClick={() => setCurrentCard("NFT")}><Bitcoin/></button>
+            <button 
+            onClick={() => setCurrentCard("Amount")}
+            className={`transition-all duration-200' ${ currentCard === "Amount" ? "scale-125 opacity-100" : "opacity-40" }`}
+            >
+              <Wallet/>
+            </button>
+            <button 
+            onClick={() => setCurrentCard("Tokens")}
+            className={`transition-all duration-200' ${ currentCard === "Tokens" ? "scale-125 opacity-100" : "opacity-40" }`}
+            >
+              <Coins/>
+            </button>
+            <button 
+            onClick={() => setCurrentCard("NFT")}
+            className={`transition-all duration-200' ${ currentCard === "NFT" ? "scale-125 opacity-100" : "opacity-40" }`}
+            >
+              <Image/>
+            </button>
         </div>
 
     </div>
