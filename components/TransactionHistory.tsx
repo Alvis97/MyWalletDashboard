@@ -8,16 +8,20 @@ import React, { useEffect, useState } from 'react'
 function TransactionHistory() {
 const {publicKey} = useWallet();
 const [transactions, setTransactions] = useState<TransactionResponse[]>([]);
+const [ error, setError ] = useState(false)
+const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
 
 useEffect(() => {
    if (!publicKey) return
 
    const fetchTransactions = async () => {
 
+       try {
     //Test for test wallet Helius
-    const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
+    const walletKey = new PublicKey(TEST_WALLET);
     const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!);
-    const signatures = await connection.getSignaturesForAddress(TEST_WALLET, { limit: 10 });
+    const signatures = await connection.getSignaturesForAddress(TEST_WALLET, { limit: 15 });
+
 
     // för mainnet
     // const signatures = await connection.getSignaturesForAddress(publicKey, { limit: 10 });
@@ -26,10 +30,23 @@ useEffect(() => {
       signatures.map(sig=> connection.getTransaction(sig.signature))
     );
 
+     // 👇 ersätt din gamla tsxFiltered med denna
     const tsxFiltered = txs.filter(
-    (tx): tx is TransactionResponse => tx !== null
-  );
+        (tx): tx is TransactionResponse => tx !== null
+    ).filter(tx => {
+        const accountKeys = tx.transaction.message.accountKeys.map(k => k.toString());
+        const walletIndex = accountKeys.findIndex(k => k === TEST_WALLET.toString());
+        const pre = tx.meta?.preBalances[walletIndex] ?? 0;
+        const post = tx.meta?.postBalances[walletIndex] ?? 0;
+        return post - pre !== 0;
+    })
+
     setTransactions(tsxFiltered);
+
+   } catch (err) {
+    console.error(err);
+    setError(true);
+   }
   
    };
    fetchTransactions();
@@ -39,16 +56,23 @@ useEffect(() => {
   return (
     <div>
       <ul>
+        { error ? (
+          <li>Failed to get transactions</li>
+        ):(
+        <>
         {transactions.map((tx, i) => {
-          const pre = tx.meta?.preBalances[0] ?? 0
-          const post = tx.meta?.postBalances[0] ?? 0
+          const accountKeys = tx.transaction.message.accountKeys.map(k => k.toString());
+          const walletIndex = accountKeys.findIndex(k => k === TEST_WALLET.toString());
+          const pre= walletIndex >= 0 ? tx.meta?.preBalances[walletIndex] ?? 0 : 0;
+          const post= walletIndex >= 0 ? tx.meta?.postBalances[walletIndex] ?? 0 : 0;
           const diff = (post - pre) / 1_000_000_000
+
           const fee = tx.meta?.fee ?? 0
           const feeSOL = fee / 1_000_000_000
           const netAmount = diff - feeSOL
 
           const type = netAmount > 0 ? "Deposit" : "Withdraw";
-          const amount = Math.abs(diff).toFixed(2);
+          const amount = Math.abs(diff).toFixed(4);
 
           const status = tx.meta?.err === null ? "Completed" : tx.meta?.err ? "Failed" : "Pending"
 
@@ -76,6 +100,9 @@ useEffect(() => {
           )
       
         })}
+        </>
+      )}
+
       </ul>
     </div>
   )

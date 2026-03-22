@@ -58,6 +58,10 @@ function NftGallery() {
                 src={selectedNft?.content?.files[0]?.uri} 
                 alt="NFT" 
                 className='w-full rounded-xl mb-4'
+                   onError={(e) => {
+                        e.currentTarget.src = '/placeholder.png'
+                        e.currentTarget.onerror = null
+                    }}
             />
             <h2 className='text-xl font-bold mb-1'>{selectedNft?.content?.metadata?.name}</h2>
             <p className='text-xs text-gray-400 mb-2 w-[250px] truncate m-auto'>{selectedNft?.id}</p>
@@ -68,7 +72,19 @@ function NftGallery() {
         
         {/* nft card */}
         <ul className='flex flex-wrap gap-4 list-none p-0 m-0 justify-center md:justify-between'>
-            {nfts.map((nft: any) => (
+            { loading ? (
+                <>
+                {Array.from({ length: 6 }).map((_, i) => (
+                 <li key={i} className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white p-4 m-5 rounded-sm'>
+                    <div className='animate-pulse bg-neutral-300 h-[200px] w-[220px] rounded-xs'></div>
+                    <div className='animate-pulse bg-neutral-300 w-full h-[25px]'></div>
+                </li>
+                ))}
+       
+                </>
+        ):(
+        <>
+              {nfts.map((nft: any) => (
             <li key={nft.id}>
                 <div 
                     onClick={() => { setModalVisible(true); setSelectedNft(nft); }}
@@ -77,11 +93,21 @@ function NftGallery() {
                     <img 
                     src={nft.content?.files?.[0]?.uri}
                     className='h-[200px] w-[220px] rounded-xs' alt="NFT image" 
+                    onError={(e) => {
+                        e.currentTarget.src = '/placeholder.png'
+                        e.currentTarget.onerror = null
+                    }}
                     />
                     <span>{nft.content?.metadata?.name}</span>
                 </div>
             </li>    
-            ))}    
+            ))}  
+        </>
+    )}
+
+
+
+        
         </ul>
       
 

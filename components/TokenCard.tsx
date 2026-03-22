@@ -4,6 +4,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { Ticket } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { fetchTransaction, fetchTokens, fetchTokenPrice } from '../services/tokenService';
+import TokenList from './TokenList';
 
 type Token = {
   mint: string;
@@ -17,11 +18,13 @@ function TokenCard() {
   const [tokens, setTokens] = useState<Token[]>([]);  
  const testWallet = process.env.NEXT_PUBLIC_TEST_WALLET;
  const [loading, setLoading] = useState(true)
+ const [error, setError] = useState(false);
 
     useEffect(() => {
         fetchTokens(testWallet)
         .then(async (tokens) => {
-            const tokensWithPrice = await Promise.all(
+            try{
+                  const tokensWithPrice = await Promise.all(
                 tokens.slice(0, 50).map((async (token: {mint: string, amount: number, decimals: number}) => {
                     const priceData = await fetchTokenPrice(token.mint)
                     return {
@@ -40,12 +43,18 @@ function TokenCard() {
                 return value > 0.01
             })
 
-            setLoading(false)
             setTokens(filtered)
+
+            } catch (err) {
+                console.error(err);
+                setError(true);
+            } finally {
+                setLoading(false);
+            }
            
         }
     )
-    }, []);
+    }, [testWallet]);
 
     const totalValue = tokens.reduce((sum, token) => {
         const holdings = token.amount / 10 ** token.decimals //getting the amount of tokens, stored as 1000000 in the blockchain
@@ -110,34 +119,15 @@ function TokenCard() {
                 <span>24h</span>
             </div>
 
-       <ul className='flex-1 min-h-0 overflow-y-auto'>
-    {loading ? (
-        [...Array(5)].map((_, i) => (
-            <li key={i} className='card-inside flex justify-between p-3 my-1'>
-                {[...Array(6)].map((_, j) => (
-                    <div key={j} className='animate-pulse bg-neutral-300 dark:bg-gray-700 rounded h-3 w-[50px]'/>
-                ))}
-            </li>
-        ))
-    ) : (
-        tokens.map((token, index) => {
-            const holdings = token.amount / 10 ** token.decimals
-            const value = holdings * token.usdPrice
-            return (
-                <li key={index} className='card-inside flex justify-between p-3 my-1 text-[10px] md:text-xs'>
-                    <span className='font-extralight'>{index + 1}</span>
-                    <span>{token.mint.slice(0, 6)}...</span>
-                    <span className='font-extralight'>${token.usdPrice.toFixed(4)}</span>
-                    <span className='font-extralight'>{holdings.toFixed(2)}</span>
-                    <span>${value.toFixed(2)}</span>
-                    <span className={token.priceChange24h > 0 ? "text-emerald-700 dark:text-green-500" : "text-amber-700 dark:text-red-500"}>
-                        {token.priceChange24h.toFixed(2)}%
-                    </span>
-                </li>
-            )
-        })
-    )}
-</ul>
+            { error ? (
+              <p className='text-red-500 text-sm text-center'>Failed to load tokens</p>
+            ):(
+            <>
+            <TokenList tokens={tokens} loading={loading} />
+            </>
+        )}
+
+
         </div>
     </div>
   )
