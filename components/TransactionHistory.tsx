@@ -8,7 +8,8 @@ import React, { useEffect, useState } from 'react'
 function TransactionHistory() {
 const {publicKey} = useWallet();
 const [transactions, setTransactions] = useState<TransactionResponse[]>([]);
-const [ error, setError ] = useState(false)
+const [ error, setError ] = useState(true);
+const [ loading, setLoading] = useState(true);
 const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
 
 useEffect(() => {
@@ -42,6 +43,7 @@ useEffect(() => {
     })
 
     setTransactions(tsxFiltered);
+    setLoading(false);
 
    } catch (err) {
     console.error(err);
@@ -57,8 +59,18 @@ useEffect(() => {
     <div>
       <ul>
         { error ? (
-          <li>Failed to get transactions</li>
-        ):(
+          <li className='text-xs text-left text-mauve-400'>Failed to get transactions</li>
+        ) : loading ? (
+      <>
+          {Array.from({ length: 5 }).map((_, i) => (
+              <li key={i} className='card-inside flex justify-between p-2.5 my-1 md:p-3'>
+                  {Array.from({ length: 4 }).map((_, j) => (
+                      <div key={j} className='animate-pulse bg-neutral-300 dark:bg-gray-700 rounded h-3 w-[50px]'/>
+                  ))}
+              </li>
+          ))}
+          </>
+      ) : (
         <>
         {transactions.map((tx, i) => {
           const accountKeys = tx.transaction.message.accountKeys.map(k => k.toString());
