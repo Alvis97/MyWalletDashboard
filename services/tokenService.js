@@ -7,7 +7,6 @@ export const fetchTransaction = async (walletAddress) => {
   );
   
   const data = await response.json();
-  console.log(data);
   return data;
 };
 
@@ -19,7 +18,6 @@ export const fetchTokens = async (walletAddress) => {
   );
   
    const data = await response.json();
-   console.log("Owned tokens:", data)
 
   return data.tokens;
 };
@@ -28,7 +26,6 @@ export const fetchTokens = async (walletAddress) => {
 export const fetchTokenPrice = async (mintAddress) => {
   const response = await fetch(`/api/price?mint=${mintAddress}`);
   const data = await response.json();
-  console.log("Jupiter response 2:", data) 
   return data[mintAddress];
 };
 

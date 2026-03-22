@@ -4,6 +4,5 @@ export const fetchNFTs = async (walletAddress) => {
     );
 
     const data = await response.json();
-    console.log("Owned NFTs:", data);
     return data;
 }
