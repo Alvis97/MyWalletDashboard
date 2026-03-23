@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { fetchNFTs } from '../services/nftService'
+import ImageWithSkeleton from './ImageWithSkeleton';
 
 function NftGallery() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -9,6 +10,7 @@ function NftGallery() {
     const [selectedNft, setSelectedNft] = useState<any>(null);
     const testWallet = process.env.NEXT_PUBLIC_TEST_WALLET;
     const [loading, setLoading ] = useState(true); 
+    const [error, setError] = useState(false)
 
 
     useEffect(() => {
@@ -16,22 +18,18 @@ function NftGallery() {
 
          fetchNFTs(testWallet)
           .then((data) => setNfts(data))
-            .catch((err) => console.error(err))
+            .catch((err) => {
+                console.error(err);
+                setError(true)
+            })
             .finally(() => setLoading(false));
     }, [testWallet]);
 
-    if (loading){
-        return(
-            <div className='flex flex-wrap gap-4 justify-center'>
-                {Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white p-4 m-5 rounded-sm'>
-                        <div className='animate-pulse bg-neutral-300 h-[200px] w-[220px] rounded-xs'></div>
-                        <div className='animate-pulse bg-neutral-300 w-full h-[25px]'></div>
-                    </div>
-                ))}
-
-            </div>
-        )
+    if (error) {
+        <div className='flex flex-wrap gap-4 justify-center'>
+            <p>Something went wrong, <br/>
+            please try again!</p>
+        </div>
     }
 
 
@@ -72,7 +70,14 @@ function NftGallery() {
         
         {/* nft card */}
         <ul className='flex flex-wrap gap-4 list-none p-0 m-0 justify-center md:justify-between'>
-            { loading ? (
+            { error ? (
+                <li className='text-neutral-400 text-sm'>
+                    <p className='text-left pl-2'>
+                    Something went wrong, <br/>
+                    please try agin! 
+                    </p>
+                </li>
+            ) : loading ? (
                 <>
                 {Array.from({ length: 6 }).map((_, i) => (
                  <li key={i} className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white p-4 m-5 rounded-sm'>
@@ -90,14 +95,8 @@ function NftGallery() {
                     onClick={() => { setModalVisible(true); setSelectedNft(nft); }}
                     className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white p-4 m-5 rounded-sm text-black hover:scale-105 transition-transform duration-200 cursor-pointer'
                 >
-                    <img 
-                    src={nft.content?.files?.[0]?.uri}
-                    className='h-[200px] w-[220px] rounded-xs' alt="NFT image" 
-                    onError={(e) => {
-                        e.currentTarget.src = '/placeholder.png'
-                        e.currentTarget.onerror = null
-                    }}
-                    />
+                   
+                    <ImageWithSkeleton src={nft.content?.files?.[0]?.uri} />
                     <span>{nft.content?.metadata?.name}</span>
                 </div>
             </li>    
@@ -105,9 +104,6 @@ function NftGallery() {
         </>
     )}
 
-
-
-        
         </ul>
       
 

@@ -14,12 +14,15 @@ type Token = {
 type Props = {
   tokens: Token[]
   loading: boolean
+  error: boolean
 }
 
-function TokenList({ tokens, loading}: Props) {
+function TokenList({ tokens, loading, error }: Props) {
   return (
     <ul className='flex-1 min-h-0 overflow-y-auto'>
-        {loading ? (
+        { error ? (
+            <p className='text-neutral-400 text-sm text-left pl-2 pt-3'>Something went wrong, <br/> please try again!</p>
+        ) : loading ? (
             [...Array(5)].map((_, i) => (
                 <li key={i} className='card-inside flex justify-between p-3 my-1'>
                     {[...Array(6)].map((_, j) => (
