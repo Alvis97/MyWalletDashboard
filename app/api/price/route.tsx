@@ -17,6 +17,5 @@ export async function GET(request: NextRequest) {
   );
 
     const data = await response.json();
-    console.log("Jupiter response:", data)
     return NextResponse.json(data)
 }

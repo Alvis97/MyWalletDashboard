@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 function TransactionHistory() {
 const {publicKey} = useWallet();
 const [transactions, setTransactions] = useState<TransactionResponse[]>([]);
-const [ error, setError ] = useState(true);
+const [ error, setError ] = useState(false);
 const [ loading, setLoading] = useState(true);
 const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
 
@@ -23,15 +23,13 @@ useEffect(() => {
     const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!);
     const signatures = await connection.getSignaturesForAddress(TEST_WALLET, { limit: 15 });
 
-
-    // för mainnet
+    // for mainnet
     // const signatures = await connection.getSignaturesForAddress(publicKey, { limit: 10 });
 
     const txs = await Promise.all(
       signatures.map(sig=> connection.getTransaction(sig.signature))
     );
 
-     // 👇 ersätt din gamla tsxFiltered med denna
     const tsxFiltered = txs.filter(
         (tx): tx is TransactionResponse => tx !== null
     ).filter(tx => {
@@ -59,7 +57,7 @@ useEffect(() => {
     <div>
       <ul>
         { error ? (
-          <li className='text-xs text-left text-mauve-400'>Failed to get transactions</li>
+          <li className='text-sm text-left pt-2 text-neutral-400'>Something went wrong, <br/> please try again!</li>
         ) : loading ? (
       <>
           {Array.from({ length: 5 }).map((_, i) => (

@@ -61,10 +61,10 @@ function WalletInfoCard() {
             <p className='font-extralight text-xs md:text-s'>Balance:</p>
 
          { error ? (
-            <p className='text-red-500 text-sm'>Something went wrong, please try again.</p>
+            <p className='text-neutral-400 text-sm'>---</p>
         ) : loading ? (
             <>
-                <div className='animate-pulse bg-neutral-300 rounded-lg h-8 w-[150px] mb-2'/>
+                <div className='animate-pulse bg-neutral-300 rounded-lg h-7 mt-1 w-[150px] mb-2'/>
                 <div className='animate-pulse bg-neutral-300 rounded-lg h-4 w-[100px]'/>
             </>
         ) : (
@@ -76,7 +76,7 @@ function WalletInfoCard() {
 
         </div>
 
-        <div className='card-inset p-2 pt-3 flex flex-col h-[70%] md:p-5'>
+        <div className='card-inset p-2 pb-7 pt-3 flex flex-col h-[70%] md:p-5'>
            <p className='font-extralight text-xs text-left pb-2 md:pb-4'>Transactions:</p>
            <div className='flex-1 min-h-0 overflow-y-auto'>
             <TransactionHistory/>

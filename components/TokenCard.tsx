@@ -1,7 +1,7 @@
 "use client"
 
 import { useWallet } from '@solana/wallet-adapter-react'
-import { Ticket } from 'lucide-react'
+import { Coins, Ticket } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { fetchTransaction, fetchTokens, fetchTokenPrice } from '../services/tokenService';
 import TokenList from './TokenList';
@@ -69,18 +69,20 @@ function TokenCard() {
     }, 0)
 
   return (
-    <div className='flex flex-col justify-between h-full min-h-0 p-4 md:p-5'>
+    <div className='flex flex-col justify-between h-full min-h-0 p-3 md:p-5'>
         <div className='flex justify-end'>
-            <Ticket size={30}/>
+            <Coins size={30}/>
         </div>
 
         <div className='flex flex-col flex-1 justify-end p-3 pb-6 pt-7 w-full pb-4 px-2 md:pb-5 md:pt-10 md:px-0'>
             <h2 className='text-left font-extralight text-xs md:text-s'>Token Balance:</h2>
-            <div className='flex justify-between items-baseline w-full'>
-                
-                {loading ? (
+            <div className='flex h-9 mt-1 justify-between items-center w-full'>
+
+                { error ? (
+                    <p className='text-neutral-400'>---</p>
+                ) : loading ? (
                 <>
-                    <div className='animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-8 w-[150px]'/>
+                    <div className='animate-pulse bg-neutral-300 dark:bg-gray-700 rounded-lg h-7 w-[120px]'/>
                 </>
                 ) : (
                 <>
@@ -88,13 +90,13 @@ function TokenCard() {
                 </>
                 )}
 
+                <div className='flex justify-between items-end items-baseline card-inside px-2 w-[90px] h-8 md:px-3 md:py-1 md:w-[120px]'>
 
-                <div className='flex justify-between items-baseline card-inside px-2 py-0 w-[90px] md:px-3 md:py-1 md:w-[120px]'>
-
-
-                {loading ? (
+                { error ? (
+                    <p className='text-neutral-400'>---</p>
+                ) : loading ? (
                 <>
-                    <div className='animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-8 w-[150px]'/>
+                    <div className='animate-pulse bg-neutral-200 dark:bg-gray-700 rounded-lg h-6 mb-0.5 w-[150px]'/>
                 </>
                 ) : (
                 <>
@@ -104,12 +106,13 @@ function TokenCard() {
                 </>
                 )}
 
+                
                   <p className='text-[10px] text-black dark:text-white'> 24h</p>
                 </div>
             </div>
         </div>
       
-        <div className='card-inset px-3 pb-5 pt-3 flex flex-col h-[70%] min-h-0 p-3 md:px-5 pb-5 pt-3'>
+        <div className='card-inset flex flex-col h-[70%] min-h-0 px-2 pb-3 pt-3 md:px-5 pb-5 pt-3'>
             <div className='flex justify-between w-full px-3 font-extralight text-[10px] pb-2 md:text-xs'>
                 <span>#</span>
                 <span className='font-light'>Token</span>
@@ -119,14 +122,7 @@ function TokenCard() {
                 <span>24h</span>
             </div>
 
-            { error ? (
-              <p className='text-red-500 text-sm text-center'>Failed to load tokens</p>
-            ):(
-            <>
-            <TokenList tokens={tokens} loading={loading} />
-            </>
-        )}
-
+            <TokenList tokens={tokens} loading={loading} error={error} />
 
         </div>
     </div>
