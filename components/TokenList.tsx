@@ -30,6 +30,8 @@ function TokenList({ tokens, loading, error }: Props) {
                     ))}
                 </li>
             ))
+        ) : tokens.length === 0 ? (
+            <p className='text-neutral-400 text-sm text-left pl-2 pt-3'>No tokens in this wallet</p>
         ) : (
             tokens.map((token, index) => {
                 const holdings = token.amount / 10 ** token.decimals

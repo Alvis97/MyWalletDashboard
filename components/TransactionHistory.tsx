@@ -68,7 +68,9 @@ useEffect(() => {
               </li>
           ))}
           </>
-      ) : (
+      ) : transactions.length === 0 ? (
+           <li className='text-sm text-left pt-2 text-neutral-400'>No transactions in this wallet</li>
+        ) : (
         <>
         {transactions.map((tx, i) => {
           const accountKeys = tx.transaction.message.accountKeys.map(k => k.toString());

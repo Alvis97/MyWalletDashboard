@@ -87,7 +87,13 @@ function NftGallery() {
                 ))}
        
                 </>
-        ):(
+        ): nfts.length === 0 ? (
+            <li className='text-neutral-400 text-sm'>
+                <p className='text-left pl-2'>
+                 No NFTs in this wallet
+                </p>
+            </li>
+        ) : (
         <>
               {nfts.map((nft: any) => (
             <li key={nft.id}>
