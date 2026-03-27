@@ -64,8 +64,8 @@ function WalletInfoCard() {
             <p className='text-neutral-400 text-sm'>---</p>
         ) : loading ? (
             <>
-                <div className='animate-pulse bg-neutral-300 rounded-lg h-7 mt-1 w-[150px] mb-2'/>
-                <div className='animate-pulse bg-neutral-300 rounded-lg h-4 w-[100px]'/>
+                <div className='animate-pulse bg-neutral-300 rounded-lg h-7 mt-1 w-[150px] mb-2 dark:bg-neutral-700'/>
+                <div className='animate-pulse bg-neutral-300 rounded-lg h-4 w-[100px] dark:bg-neutral-700'/>
             </>
         )  : solBalance === 0 ? (
             <p className='text-neutral-400 text-sm'>Your wallet is empty</p>

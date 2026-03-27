@@ -82,7 +82,7 @@ function TokenCard() {
                     <p className='text-neutral-400'>---</p>
                 ) : loading ? (
                 <>
-                    <div className='animate-pulse bg-neutral-300 dark:bg-gray-700 rounded-lg h-7 w-[120px]'/>
+                    <div className='animate-pulse bg-neutral-300 dark:bg-neutral-700 rounded-lg h-7 w-[120px]'/>
                 </>
                 ) : (
                 <>
@@ -90,13 +90,13 @@ function TokenCard() {
                 </>
                 )}
 
-                <div className='flex justify-between items-end items-baseline card-inside px-2 w-[90px] h-8 md:px-3 md:py-1 md:w-[120px]'>
+                <div className='flex justify-between items-end items-baseline card-inside px-2 w-[95px] h-8 md:px-3 md:py-1 md:w-[120px]'>
 
                 { error ? (
                     <p className='text-neutral-400'>---</p>
                 ) : loading ? (
                 <>
-                    <div className='animate-pulse bg-neutral-200 dark:bg-gray-700 rounded-lg h-6 mb-0.5 w-[150px]'/>
+                    <div className='animate-pulse bg-neutral-200 dark:bg-[#474745]/70 rounded-lg h-5 mb-1 w-[150px]'/>
                 </>
                 ) : (
                 <>

@@ -26,7 +26,7 @@ function TokenList({ tokens, loading, error }: Props) {
             [...Array(5)].map((_, i) => (
                 <li key={i} className='card-inside flex justify-between p-3 my-1'>
                     {[...Array(6)].map((_, j) => (
-                        <div key={j} className='animate-pulse bg-neutral-300 dark:bg-gray-700 rounded h-3 w-[50px]'/>
+                        <div key={j} className='animate-pulse bg-neutral-300 dark:bg-[#474745] rounded h-3 w-[50px]'/>
                     ))}
                 </li>
             ))

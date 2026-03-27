@@ -44,11 +44,11 @@ function NftGallery() {
     >
         {/* modal box */}
         <div 
-            className='bg-[#e0e5ec] rounded-2xl p-6 pt-2 w-[350px] h-fit shadow-xl/30 md:w-[450px]'
+            className='bg-[#e0e5ec] dark:bg-[#909090] rounded-2xl p-6 pt-2 w-[350px] h-fit shadow-xl/30 md:w-[450px]'
             onClick={(e) => e.stopPropagation()}  
         >
             <button 
-                className='float-right cursor-pointer text-gray-500 mb-1  hover:text-black'
+                className='float-right cursor-pointer text-gray-500 mb-1  hover:text-black dark:text-olive-900'
                 onClick={() => setModalVisible(false)}
             >✕</button>
 
@@ -61,9 +61,9 @@ function NftGallery() {
                         e.currentTarget.onerror = null
                     }}
             />
-            <h2 className='text-xl font-bold mb-1'>{selectedNft?.content?.metadata?.name}</h2>
-            <p className='text-xs text-gray-400 mb-2 w-[250px] truncate m-auto'>{selectedNft?.id}</p>
-            <p className='text-sm text-gray-600'>{selectedNft?.content?.metadata?.description}</p>
+            <h2 className='text-xl font-bold mb-1 dark:text-black'>{selectedNft?.content?.metadata?.name}</h2>
+            <p className='text-xs text-gray-400 dark:text-olive-900 mb-2 w-[250px] truncate m-auto'>{selectedNft?.id}</p>
+            <p className='text-sm text-gray-600 dark:text-neutral-600 '>{selectedNft?.content?.metadata?.description}</p>
         </div>
     </div>
 )}
@@ -80,7 +80,7 @@ function NftGallery() {
             ) : loading ? (
                 <>
                 {Array.from({ length: 6 }).map((_, i) => (
-                 <li key={i} className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white p-4 m-5 rounded-sm'>
+                 <li key={i} className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white dark:bg-[#606060] p-4 m-5 rounded-sm'>
                     <div className='animate-pulse bg-neutral-300 h-[200px] w-[220px] rounded-xs'></div>
                     <div className='animate-pulse bg-neutral-300 w-full h-[25px]'></div>
                 </li>
@@ -99,7 +99,7 @@ function NftGallery() {
             <li key={nft.id}>
                 <div 
                     onClick={() => { setModalVisible(true); setSelectedNft(nft); }}
-                    className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white p-4 m-5 rounded-sm text-black hover:scale-105 transition-transform duration-200 cursor-pointer'
+                    className='flex flex-col justify-between items-start h-[270px] w-[250px] bg-white dark:bg-[#606060] p-4 m-5 rounded-sm text-black hover:scale-105 transition-transform duration-200 cursor-pointer'
                 >
                    
                     <ImageWithSkeleton src={nft.content?.files?.[0]?.uri} />
