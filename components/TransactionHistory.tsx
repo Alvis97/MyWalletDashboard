@@ -1,7 +1,7 @@
 "use client"
 
 import { useWallet } from '@solana/wallet-adapter-react'
-import { clusterApiUrl, Connection, PublicKey, TransactionResponse } from '@solana/web3.js';
+import { Connection, PublicKey, TransactionResponse } from '@solana/web3.js';
 import { MoveDown, MoveUp } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 
@@ -10,7 +10,6 @@ const {publicKey} = useWallet();
 const [transactions, setTransactions] = useState<TransactionResponse[]>([]);
 const [ error, setError ] = useState(false);
 const [ loading, setLoading] = useState(true);
-const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
 
 useEffect(() => {
    if (!publicKey) return
@@ -19,12 +18,12 @@ useEffect(() => {
 
        try {
     //Test for test wallet Helius
-    const walletKey = new PublicKey(TEST_WALLET);
     const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!);
-    const signatures = await connection.getSignaturesForAddress(TEST_WALLET, { limit: 15 });
+    // For testWallet
+    // const signatures = await connection.getSignaturesForAddress(TEST_WALLET, { limit: 15 });
 
     // for mainnet
-    // const signatures = await connection.getSignaturesForAddress(publicKey, { limit: 10 });
+     const signatures = await connection.getSignaturesForAddress(publicKey, { limit: 10 });
 
     const txs = await Promise.all(
       signatures.map(sig=> connection.getTransaction(sig.signature))
@@ -34,7 +33,7 @@ useEffect(() => {
         (tx): tx is TransactionResponse => tx !== null
     ).filter(tx => {
         const accountKeys = tx.transaction.message.accountKeys.map(k => k.toString());
-        const walletIndex = accountKeys.findIndex(k => k === TEST_WALLET.toString());
+        const walletIndex = accountKeys.findIndex(k => k === publicKey.toString());
         const pre = tx.meta?.preBalances[walletIndex] ?? 0;
         const post = tx.meta?.postBalances[walletIndex] ?? 0;
         return post - pre !== 0;
@@ -74,7 +73,7 @@ useEffect(() => {
         <>
         {transactions.map((tx, i) => {
           const accountKeys = tx.transaction.message.accountKeys.map(k => k.toString());
-          const walletIndex = accountKeys.findIndex(k => k === TEST_WALLET.toString());
+          const walletIndex = accountKeys.findIndex(k => k === publicKey?.toString());
           const pre= walletIndex >= 0 ? tx.meta?.preBalances[walletIndex] ?? 0 : 0;
           const post= walletIndex >= 0 ? tx.meta?.postBalances[walletIndex] ?? 0 : 0;
           const diff = (post - pre) / 1_000_000_000

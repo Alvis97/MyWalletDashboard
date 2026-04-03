@@ -39,7 +39,7 @@ function TokenList({ tokens, loading, error }: Props) {
                 return (
                     <li key={index} className='card-inside flex justify-between p-3 my-1 text-[10px] md:text-xs'>
                         <span className='font-extralight'>{index + 1}</span>
-                        <span>{token.mint.slice(0, 6)}...</span>
+                        <span>{token.mint?.slice(0, 6)}...</span>
                         <span className='font-extralight'>${token.usdPrice.toFixed(4)}</span>
                         <span className='font-extralight'>{holdings.toFixed(2)}</span>
                         <span>${value.toFixed(2)}</span>

@@ -1,7 +1,7 @@
 export async function fetchSolPrice() {
-    try{
+  try {
         const response = await fetch(
-            "https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT"
+            "https://api.binance.us/api/v3/ticker/price?symbol=SOLUSDT"
         )
 
         if (!response.ok) {

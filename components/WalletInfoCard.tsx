@@ -2,7 +2,7 @@
 
 import { fetchSolPrice } from '@/services/priceService';
 import { useWallet } from '@solana/wallet-adapter-react'
-import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+import { Connection, PublicKey } from '@solana/web3.js';
 import { Wallet } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import TransactionHistory from './TransactionHistory';
@@ -22,12 +22,14 @@ function WalletInfoCard() {
 
             try {
             //get balance från test wallet
-            const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
+            //const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
+
             const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!);
-            const lamports = await connection.getBalance(TEST_WALLET);
+            // Test Wallet
+            // const lamports = await connection.getBalance(TEST_WALLET);
 
             //Get Balance from logged in wallet
-            // const lamports = await connection.getBalance(publicKey);
+            const lamports = await connection.getBalance(publicKey);
 
             const sol = lamports / 1_000_000_000;
             setSolBalance(sol)

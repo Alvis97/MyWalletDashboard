@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { fetchTransaction, fetchTokens, fetchTokenPrice } from '../services/tokenService';
 import TokenList from './TokenList';
 
+
 type Token = {
   mint: string;
   amount: number;
@@ -15,16 +16,18 @@ type Token = {
 }
 
 function TokenCard() {
-  const [tokens, setTokens] = useState<Token[]>([]);  
- const testWallet = process.env.NEXT_PUBLIC_TEST_WALLET;
+ const { publicKey } = useWallet(); 
+ const [tokens, setTokens] = useState<Token[]>([]); 
  const [loading, setLoading] = useState(true)
  const [error, setError] = useState(false);
 
     useEffect(() => {
-        fetchTokens(testWallet)
+        if (!publicKey) return
+
+        fetchTokens(publicKey.toString())
         .then(async (tokens) => {
             try{
-                  const tokensWithPrice = await Promise.all(
+                const tokensWithPrice = await Promise.all(
                 tokens.slice(0, 50).map((async (token: {mint: string, amount: number, decimals: number}) => {
                     const priceData = await fetchTokenPrice(token.mint)
                     return {
@@ -40,7 +43,7 @@ function TokenCard() {
             const filtered = tokensWithPrice.filter(token => {
                 const holdings = token.amount / 10 ** token.decimals
                 const value = holdings * token.usdPrice
-                return value > 0.01
+                return value > 0.01 && token.mint
             })
 
             setTokens(filtered)
@@ -54,7 +57,7 @@ function TokenCard() {
            
         }
     )
-    }, [testWallet]);
+    }, [publicKey]);
 
     const totalValue = tokens.reduce((sum, token) => {
         const holdings = token.amount / 10 ** token.decimals //getting the amount of tokens, stored as 1000000 in the blockchain
@@ -84,10 +87,12 @@ function TokenCard() {
                 <>
                     <div className='animate-pulse bg-neutral-300 dark:bg-neutral-700 rounded-lg h-7 w-[120px]'/>
                 </>
-                ) : (
+                ) : totalValue === 0 ? (
                 <>
-                <span className='font-light text-2xl md:text-4xl'>$ {totalValue.toFixed(2)}</span>
+                <span className='text-neutral-400'>---</span>
                 </>
+                ) : (
+                    <span className='font-light text-2xl md:text-4xl'>$ {totalValue.toFixed(2)}</span>
                 )}
 
                 <div className='flex justify-between items-end items-baseline card-inside px-2 w-[95px] h-8 md:px-3 md:py-1 md:w-[120px]'>
@@ -98,6 +103,8 @@ function TokenCard() {
                 <>
                     <div className='animate-pulse bg-neutral-200 dark:bg-[#474745]/70 rounded-lg h-5 mb-1 w-[150px]'/>
                 </>
+                ) : totalChange === 0 ? (
+                    <p className='text-neutral-400'>---</p>
                 ) : (
                 <>
                     <p className={`text-s md:text-xl ${totalChange >= 0 ? 'text-emerald-700 dark:text-green-500' : 'text-amber-700 dark:text-red-500'}`}>
