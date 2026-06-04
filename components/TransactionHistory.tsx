@@ -4,9 +4,12 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { Connection, PublicKey, TransactionResponse } from '@solana/web3.js';
 import { MoveDown, MoveUp } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
+import { useNetwork } from './networkContext';
 
 function TransactionHistory() {
+
 const {publicKey} = useWallet();
+const { selectedNetwork } = useNetwork();
 const [transactions, setTransactions] = useState<TransactionResponse[]>([]);
 const [ error, setError ] = useState(false);
 const [ loading, setLoading] = useState(true);
@@ -14,25 +17,35 @@ const [ loading, setLoading] = useState(true);
 useEffect(() => {
    if (!publicKey) return
 
+   setTransactions([]);
+   setLoading(true);
+   setError(false);
+
    const fetchTransactions = async () => {
 
        try {
-    //Test for test wallet Helius
-    const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!);
-    // For testWallet
-    // const signatures = await connection.getSignaturesForAddress(TEST_WALLET, { limit: 15 });
+        const connection = selectedNetwork === "Mainnet"
+        ? new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!)
+        : new Connection('https://api.devnet.solana.com');
+    
+        const signatures = await connection.getSignaturesForAddress(publicKey, { limit: 10 });
 
-    // for mainnet
-     const signatures = await connection.getSignaturesForAddress(publicKey, { limit: 10 });
+        const txs = [];
+        for (const sig of signatures) {
+          const tx = await connection.getTransaction(sig.signature, {
+            maxSupportedTransactionVersion: 0
+          });
+          txs.push(tx);
+          await new Promise(resolve => setTimeout(resolve, 100))
+        }    
 
-    const txs = await Promise.all(
-      signatures.map(sig=> connection.getTransaction(sig.signature))
-    );
-
+    //Filtrera transaxtions      
     const tsxFiltered = txs.filter(
         (tx): tx is TransactionResponse => tx !== null
     ).filter(tx => {
-        const accountKeys = tx.transaction.message.accountKeys.map(k => k.toString());
+        const accountKeys = tx.transaction.message.accountKeys?.map(k => k.toString());
+        if (!accountKeys) return false;
+
         const walletIndex = accountKeys.findIndex(k => k === publicKey.toString());
         const pre = tx.meta?.preBalances[walletIndex] ?? 0;
         const post = tx.meta?.postBalances[walletIndex] ?? 0;
@@ -50,7 +63,7 @@ useEffect(() => {
    };
    fetchTransactions();
 
-}, [publicKey])
+}, [publicKey, selectedNetwork])
  
   return (
     <div>

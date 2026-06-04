@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Unbounded } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/AppWrapper";
 import WalletAdapter from "@/components/WalletAdapter";
+import AppWrapper from "@/components/AppWrapper";
 
 const unbounded = Unbounded ({
   subsets: ["latin"],
@@ -16,19 +17,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning lang="en">
       <body
         className={
           `flex flex-col min-h-screen
           ${unbounded.className} tracking-tight antialiased`
         }
         >
-          <WalletAdapter>
-            <Navbar/>
-            <main className="flex-1">
-            {children}
-            </main>
-          </WalletAdapter>
+         <AppWrapper>
+          {children}
+         </AppWrapper>
       </body>
     </html>
   );

@@ -6,10 +6,13 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import { Wallet } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import TransactionHistory from './TransactionHistory';
+import { useNetwork } from './networkContext';
+import { connection } from 'next/server';
 
 function WalletInfoCard() {
 
     const { publicKey } = useWallet();
+    const { selectedNetwork } = useNetwork()
     const [solBalance, setSolBalance] = useState(0);
     const [usdValue, setUsdValue] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -17,16 +20,16 @@ function WalletInfoCard() {
 
     //Get amount
     useEffect(() => {
+        if (!publicKey) return
+
         const fetchBalance = async () => {
-            if (!publicKey) return
 
             try {
-            //get balance från test wallet
-            //const TEST_WALLET = new PublicKey(process.env.NEXT_PUBLIC_TEST_WALLET!);
 
-            const connection = new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!);
-            // Test Wallet
-            // const lamports = await connection.getBalance(TEST_WALLET);
+            //get connection based on mainnet or devnet
+            const connection = selectedNetwork === "Mainnet"
+            ? new Connection(process.env.NEXT_PUBLIC_HELIUS_RPC_URL!)
+            : new Connection('https://api.devnet.solana.com');
 
             //Get Balance from logged in wallet
             const lamports = await connection.getBalance(publicKey);
@@ -51,7 +54,8 @@ function WalletInfoCard() {
 
         }
         fetchBalance();
-    }, [publicKey]);
+           console.log("selectedNetwork walletcard:", selectedNetwork)
+    }, [publicKey, selectedNetwork]);
 
   return (
     <div className='flex flex-col justify-between h-full min-h-0 p-3 md:p-5'>

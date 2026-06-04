@@ -8,6 +8,7 @@ import { WalletModalProvider, WalletMultiButton } from "@solana/wallet-adapter-r
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 
 import "@solana/wallet-adapter-react-ui/styles.css";
+import { useNetwork } from './networkContext';
 
 interface SolanaWalletProps {
     children?: ReactNode;
@@ -15,9 +16,17 @@ interface SolanaWalletProps {
 
 const WalletAdapter: React.FC<SolanaWalletProps> = ({children}) => {
 
-    const network = WalletAdapterNetwork.Devnet;
+    const { selectedNetwork } = useNetwork()
 
-    const endPoint = useMemo(() => clusterApiUrl(network), [network]);
+    const network = selectedNetwork === "Mainnet"
+    ? WalletAdapterNetwork.Mainnet
+    : WalletAdapterNetwork.Devnet;
+
+    const endPoint = useMemo(() =>
+        network === WalletAdapterNetwork.Mainnet
+    ? (process.env.NEXT_PUBLIC_HELIUS_RPC_URL ?? clusterApiUrl(WalletAdapterNetwork.Mainnet))
+    : clusterApiUrl(network)
+    , [network]);
 
     const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
 
