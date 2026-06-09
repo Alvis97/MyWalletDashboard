@@ -1,15 +1,8 @@
+import { resolveUrl } from '@/utils/resolveUrl';
 import React, { useState } from 'react'
 
 function ImageWithSkeleton({ src }: { src: string }) {
   const [loaded, setLoaded] = useState(false);
-
-  const resolveUrl = (url: string) => {
-    if (!url) return '/placeholder.png';
-    if (url.startsWith('ipfs://')) { 
-    return url.replace('ipfs://', 'https://ipfs.io/ipfs/');
-  }
-  return url
-}
 
   return (
     <div>

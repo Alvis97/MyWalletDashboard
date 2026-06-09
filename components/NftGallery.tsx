@@ -6,6 +6,7 @@ import ImageWithSkeleton from './ImageWithSkeleton';
 import { PublicKey } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useNetwork } from './networkContext';
+import { resolveUrl } from '@/utils/resolveUrl';
 
 function NftGallery() {
     const { publicKey } = useWallet();
@@ -63,7 +64,7 @@ function NftGallery() {
             >✕</button>
 
             <img 
-                src={selectedNft?.content?.files[0]?.uri} 
+                src={resolveUrl(selectedNft?.content?.files[0]?.uri)} 
                 alt="NFT" 
                 className='w-full rounded-xl mb-4'
                    onError={(e) => {
