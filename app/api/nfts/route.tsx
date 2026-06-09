@@ -4,11 +4,15 @@ import React from 'react'
 export async function GET(request: NextRequest ) {
     const { searchParams } = new URL(request.url);
     const address = searchParams.get('address');
-    const apiKey = process.env.NEXT_PUBLIC_HELIUS_API_KEY;
+    const network = searchParams.get('network');
+    const apiKey = process.env.HELIUS_API_KEY;
 
-    const response = await fetch(
-        `https://mainnet.helius-rpc.com/?api-key=${apiKey}`,
-        {
+    const rpcUrl = network === "Mainnet" 
+    ? `https://mainnet.helius-rpc.com/?api-key=${apiKey}`
+    : `https://devnet.helius-rpc.com/?api-key=${apiKey}`;
+
+    const response = await fetch(rpcUrl, {
+        
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -25,6 +29,13 @@ export async function GET(request: NextRequest ) {
     );
 
     const data = await response.json();
+    if (data.err) {
+        return NextResponse.json({ error: data.error}, { status: 500 });
+    }
+
+    console.log("NFT response:", JSON.stringify(data, null, 2));
+    console.log("API key:", apiKey);
+
     const nfts = data.result.items.filter(
         (item: any) =>
         (item.interface === 'V1_NFT' || item.interface == 'MplCoreAsset' &&
@@ -32,5 +43,5 @@ export async function GET(request: NextRequest ) {
         )
       
     );
-  return NextResponse.json(nfts);
+  return NextResponse.json({ items: nfts});
 }

@@ -5,9 +5,11 @@ import { fetchNFTs } from '../services/nftService'
 import ImageWithSkeleton from './ImageWithSkeleton';
 import { PublicKey } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { useNetwork } from './networkContext';
 
 function NftGallery() {
     const { publicKey } = useWallet();
+    const { selectedNetwork } = useNetwork();
     const [modalVisible, setModalVisible] = useState(false);
     const [nfts, setNfts] = useState([]);
     const [selectedNft, setSelectedNft] = useState<any>(null);
@@ -18,16 +20,20 @@ function NftGallery() {
     useEffect(() => {
         if (!publicKey) return;
 
+        setNfts([]);
+        setLoading(true);
+        setError(false);
+
         const address = publicKey.toBase58();
 
-         fetchNFTs(address)
+         fetchNFTs(address, selectedNetwork)
           .then((data) => setNfts(data))
             .catch((err) => {
                 console.error(err);
                 setError(true)
             })
             .finally(() => setLoading(false));
-    }, [publicKey]);
+    }, [publicKey, selectedNetwork]);
 
     if (error) {
         <div className='flex flex-wrap gap-4 justify-center'>

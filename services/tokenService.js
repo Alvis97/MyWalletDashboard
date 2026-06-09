@@ -1,6 +1,6 @@
 //Fetch token transactions history
 export const fetchTransaction = async (walletAddress) => {
-  const apiKey = process.env.NEXT_PUBLIC_HELIUS_API_KEY;
+  const apiKey = process.env.HELIUS_API_KEY;
   
   const response = await fetch(
     `https://api.helius.xyz/v0/addresses/${walletAddress}/transactions?api-key=${apiKey}`
@@ -12,14 +12,13 @@ export const fetchTransaction = async (walletAddress) => {
 
 
 // fetch tokens that i own
-export const fetchTokens = async (walletAddress) => {
+export const fetchTokens = async (walletAddress, network) => {
   const response = await fetch(
-    `/api/tokens?address=${walletAddress}`
+    `/api/tokens?address=${walletAddress}&network=${network}`
   );
   
    const data = await response.json();
-
-  return data.tokens;
+  return data.tokens ?? [];
 };
 
 //Jupiter fetch token price

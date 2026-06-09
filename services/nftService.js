@@ -1,6 +1,6 @@
-export const fetchNFTs = async (walletAddress) => {
+export const fetchNFTs = async (walletAddress, network) => {
     const response = await fetch(
-        `/api/nfts?address=${walletAddress}`
+        `/api/nfts?address=${walletAddress}&network=${network}`
     );
 
     if (!response) {
@@ -13,5 +13,6 @@ export const fetchNFTs = async (walletAddress) => {
         return [];
     }
 
+    console.log("NFT data: ", data);
     return data.items;
 }

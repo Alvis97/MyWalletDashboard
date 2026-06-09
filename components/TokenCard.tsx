@@ -5,6 +5,7 @@ import { Coins, Ticket } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { fetchTransaction, fetchTokens, fetchTokenPrice } from '../services/tokenService';
 import TokenList from './TokenList';
+import { useNetwork } from './networkContext';
 
 
 type Token = {
@@ -17,15 +18,25 @@ type Token = {
 
 function TokenCard() {
  const { publicKey } = useWallet(); 
+ const { selectedNetwork } = useNetwork();
  const [tokens, setTokens] = useState<Token[]>([]); 
  const [loading, setLoading] = useState(true)
  const [error, setError] = useState(false);
 
+
     useEffect(() => {
         if (!publicKey) return
 
-        fetchTokens(publicKey.toString())
+        setTokens([]);
+        setLoading(true);
+        setError(false);
+
+        fetchTokens(publicKey.toString(), selectedNetwork)
         .then(async (tokens) => {
+            if (!tokens || tokens.length === 0) {
+                setLoading(false)
+                return
+            }
             try{
                 const tokensWithPrice = await Promise.all(
                 tokens.slice(0, 50).map((async (token: {mint: string, amount: number, decimals: number}) => {
@@ -57,7 +68,7 @@ function TokenCard() {
            
         }
     )
-    }, [publicKey]);
+    }, [publicKey, selectedNetwork]);
 
     const totalValue = tokens.reduce((sum, token) => {
         const holdings = token.amount / 10 ** token.decimals //getting the amount of tokens, stored as 1000000 in the blockchain

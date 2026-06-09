@@ -26,6 +26,7 @@ export default function Providers({ children } : { children: ReactNode}) {
 
     console.log("network: ", network)
     console.log("selected network: ", selectedNetwork)
+    console.log("endpoint:", endpoint);
   return (
     <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets}>
