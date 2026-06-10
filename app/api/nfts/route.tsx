@@ -33,9 +33,6 @@ export async function GET(request: NextRequest ) {
         return NextResponse.json({ error: data.error}, { status: 500 });
     }
 
-    console.log("NFT response:", JSON.stringify(data, null, 2));
-    console.log("API key:", apiKey);
-
     const nfts = data.result.items.filter(
         (item: any) =>
         (item.interface === 'V1_NFT' || item.interface == 'MplCoreAsset' &&

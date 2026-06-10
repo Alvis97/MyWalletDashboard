@@ -23,9 +23,8 @@ function TokenCard() {
  const [loading, setLoading] = useState(true)
  const [error, setError] = useState(false);
 
-
     useEffect(() => {
-        if (!publicKey) return
+         if (!publicKey) return
 
         setTokens([]);
         setLoading(true);
@@ -33,6 +32,7 @@ function TokenCard() {
 
         fetchTokens(publicKey.toString(), selectedNetwork)
         .then(async (tokens) => {
+              console.log("tokens:", tokens); 
             if (!tokens || tokens.length === 0) {
                 setLoading(false)
                 return
@@ -68,7 +68,7 @@ function TokenCard() {
            
         }
     )
-    }, [publicKey, selectedNetwork]);
+    }, [selectedNetwork]);
 
     const totalValue = tokens.reduce((sum, token) => {
         const holdings = token.amount / 10 ** token.decimals //getting the amount of tokens, stored as 1000000 in the blockchain
@@ -106,7 +106,7 @@ function TokenCard() {
                     <span className='font-light text-2xl md:text-4xl'>$ {totalValue.toFixed(2)}</span>
                 )}
 
-                <div className='flex justify-between items-end items-baseline card-inside px-2 w-[95px] h-8 md:px-3 md:py-1 md:w-[120px]'>
+                <div className='flex justify-between items-end items-baseline card-inside px-2 w-[95px] h-7 md:px-3 md:py-1 md:h-10 md:w-[120px]'>
 
                 { error ? (
                     <p className='text-neutral-400'>---</p>
@@ -118,7 +118,7 @@ function TokenCard() {
                     <p className='text-neutral-400'>---</p>
                 ) : (
                 <>
-                    <p className={`text-s md:text-xl ${totalChange >= 0 ? 'text-emerald-700 dark:text-green-500' : 'text-amber-700 dark:text-red-500'}`}>
+                    <p className={`text-s p-0 md:text-xl ${totalChange >= 0 ? 'text-emerald-700 dark:text-green-500' : 'text-amber-700 dark:text-red-500'}`}>
                         {totalChange >= 0 ? '+' : ''}{totalChange.toFixed(2)} 
                     </p>
                 </>
