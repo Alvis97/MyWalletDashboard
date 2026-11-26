@@ -13,6 +13,5 @@ export const fetchNFTs = async (walletAddress, network) => {
         return [];
     }
 
-    console.log("NFT data: ", data);
     return data.items;
 }

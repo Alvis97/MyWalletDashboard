@@ -18,7 +18,7 @@ function AppWrapper({ children }: Props) {
        <div className='flex flex-col h-full'>
         <NetworkProvider>
           <Providers>
-            <nav className="flex items-center justify-end px-3 h-16 shrink-0">
+            <nav className="flex items-center justify-between px-3 h-16 shrink-0">
               <NetworkSelector />
               <WalletButton/>
             </nav>

@@ -1,112 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #E7E7E7;
-  --foreground: #171717;
+  --background: #131313;
+  --foreground: #ededed;
+  --purple: #a782c6;
+  --green: #2bff47;
+  --red: #db555a;
+  --orange: #ffa600;
+  --hoverColor: #a782c610;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #343434;
-    --foreground: #ededed;
-  }
-}
-
-@layer components {
-  .card-base {
-    @apply rounded-2xl transition-all duration-300;
-
-    background: var(--background);
-
-    box-shadow:
-      -6px -6px 12px rgba(255, 255, 255, 0.6),  
-       6px  6px 12px rgba(0, 0, 0, 0.163);       
-  }
-
- @media (prefers-color-scheme: dark) {
-  .card-base {
-    box-shadow:
-      -6px -6px 12px rgba(255, 255, 255, 0.152),
-       6px  6px 12px rgba(0, 0, 0, 0.782);
-  }
-}
-}
-
-@layer components {
-.card-inset {
-    @apply rounded-2xl transition-all duration-300;
-
-  box-shadow:
-    -6px -6px 12px rgba(255, 255, 255, 0.6),
-     6px  6px 12px rgba(0, 0, 0, 0.163),
-      inset 0 -10px 10px rgba(0, 0, 0, 0.198);
-}
-
- @media (prefers-color-scheme: dark) {
-  .card-inset {
-    box-shadow:
-      -4px -4px 12px rgba(255, 255, 255, 0.111),
-       6px  6px 12px rgba(0, 0, 0, 0.646);
-  }
-}
-}
-
-@layer components {
-.card-inside {
-  @apply rounded-2xl transition-all duration-300;
-
-  background: rgba(255, 255, 255, 0.227);
-
-  box-shadow:
-    inset 0 -4px 6px rgba(255,255,255,0.8),
-    inset 0 4px 6px rgba(0,0,0,0.25);
-}
-
- @media (prefers-color-scheme: dark) {
-  .card-inside {
-
-  background: rgba(159, 159, 159, 0.089);
-
-    box-shadow:
-      inset -2px -2px 8px rgba(255, 255, 255, 0.22),
-      inset 4px 4px 8px rgb(0, 0, 0);
-  }
-}
-}
-
-
-
-.wallet-adapter-button.wallet-adapter-button-trigger {
-  @apply rounded-full transition-all duration-300 px-6 py-3 text-sm font-medium;
-  color: var(--foreground) !important;
-  background: var(--background);
-
-  box-shadow:
-    -6px -6px 12px rgba(255, 255, 255, 0.6),
-     6px  6px 12px rgba(0, 0, 0, 0.163);
-}
-
-@media (prefers-color-scheme: dark) {
-  .wallet-adapter-button.wallet-adapter-button-trigger {
-    box-shadow:
-      -5px -5px 12px rgba(255, 255, 255, 0.152),
-       6px  6px 12px rgba(0, 0, 0, 0.782);
-  }
-}
-
-
-
-.wallet-adapter-button:not([disabled]):hover {
-  transform: translateY(-2px);
-  background-color: #cccccc !important;
-  color: var(--foreground) !important;
+  --color-purple: var(--purple);
+  --color-green: var(--green);
+  --color-red: var(--red);
+  --color-orange: var(--orange);
+  --color-hoverColor: var(--hoverColor);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-manrope);
 }
 
 html, body {
@@ -119,3 +32,134 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 70% 45% at 40% 27%,
+    rgb(124 58 237 / 0.35),
+    transparent 70%
+  );
+}
+
+@layer base {
+  h1 {
+    font-family: var(--font-manrope);
+    color: var(--foreground);
+    letter-spacing: 0.15rem;
+    @apply my-1 text-3xl 
+    font-black;
+  }
+}
+h2,h3,h4{
+  font-family: var(--font-manrope);
+}
+
+@layer base {
+  p {
+    font-family: var(--font-inter);
+    color: var(--foreground);
+    @apply text-sm lg:text-base
+    font-normal;
+  }
+}
+
+@layer base{
+  span{
+  background-color: rgba(255, 255, 255, 0.146);
+  padding: 4px 7px;
+  border-radius: 50px;
+   @apply inset-shadow-sm
+  }
+}
+
+@layer base{
+  a{
+   color: var(--purple)
+  }
+}
+
+
+@layer components{
+  .btn-base {
+    @apply 
+    inline-flex items-center justify-center gap-2
+    h-12 min-w-30 px-3 rounded-full text-xs
+    bg-[var(--background)] border border-[var(--purple)]
+    cursor-pointer transition duration-300
+    hover:bg-[var(--hoverColor)] hover:scale-[1.02]
+  }
+}
+
+@layer components{
+  .btn-square {
+    background-color: #1e1e1e;
+    @apply 
+    flex items-center justify-center 
+    h-14 w-14 rounded-xl text-xs
+    border border-[var(--purple)]
+    drop-shadow-xl drop-shadow-stone-900
+    cursor-pointer transition duration-300
+    hover:bg-[var(--hoverColor)] hover:scale-[1.02]
+  }
+}
+
+@layer components{
+  .glass-card {
+box-sizing: border-box;
+background: rgba(21, 9, 30, 0.2);
+border: 1px solid rgba(153, 153, 153, 0.27);
+border-radius: 14px;
+  }
+}
+
+@layer components {
+  .card-base {
+    @apply rounded-2xl transition-all duration-300;
+
+    background: var(--background);
+
+    box-shadow:
+         -6px -6px 12px rgba(255, 255, 255, 0.152),
+       6px  6px 12px rgba(0, 0, 0, 0.782);      
+  }
+}
+
+@layer components {
+.card-inset {
+    @apply rounded-2xl transition-all duration-300;
+
+  box-shadow:
+      -4px -4px 12px rgba(255, 255, 255, 0.111),
+       6px  6px 12px rgba(0, 0, 0, 0.646),
+      inset 0 -10px 10px rgba(0, 0, 0, 0.198);
+}
+}
+
+@layer components {
+.card-inside {
+  @apply rounded-2xl transition-all duration-300;
+
+  background: rgba(255, 255, 255, 0.227);
+
+  box-shadow:
+      inset -2px -2px 8px rgba(255, 255, 255, 0.22),
+      inset 4px 4px 8px rgb(0, 0, 0);
+}
+}
+
+.wallet-adapter-button.wallet-adapter-button-trigger {
+  @apply flex items-center justify-center rounded-full transition-all duration-300 px-3 h-12 w-35 text-sm font-medium border border-[var(--purple)] hover:bg-[var(--hoverColor)];
+  color: var(--foreground) !important;
+  background: var(--background);
+}
+
+.wallet-adapter-button:not([disabled]):hover {
+  transform: scale(1.02);
+}
+
+

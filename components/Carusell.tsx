@@ -54,7 +54,6 @@ if (!publicKey) {
 
             <div
             className='
-            card-base
             min-w-full h-full p-0 text-center
             md:p-4
             '>
@@ -62,8 +61,7 @@ if (!publicKey) {
             </div>
 
             <div
-             className='
-            card-base
+            className='
             min-w-full h-full  p-0 text-center
             md:p-4
             '>
@@ -71,8 +69,7 @@ if (!publicKey) {
             </div>
 
             <div
-         className='
-            card-base
+            className='
             min-w-full h-full p-0 text-center
             md:p-4
             '>

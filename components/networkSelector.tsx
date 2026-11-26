@@ -1,8 +1,9 @@
 "use client"
 
-import { ChevronLeft } from 'lucide-react';
+import { IoIosArrowDown } from "react-icons/io";
 import React, { useState } from 'react'
 import { useNetwork } from './networkContext';
+import { GoDotFill } from "react-icons/go";
 
 function NetworkSelector() {
     const [open, setOpen]=useState(false);
@@ -10,11 +11,12 @@ function NetworkSelector() {
   return (
        <div className='content-center mx-4'>
         <button
-            className='flex button-base w-[95px] p-2.5 text-xs rounded-xl cursor-pointer justify-between items-center'
+            className='btn-base'
             onClick={()=> setOpen(!open)}
         >
+        <GoDotFill className="fill-[var(--orange)]"/>    
         {selectedNetwork}
-        <ChevronLeft size={"15px"} className={`transition-transform duration-200 ${open ? '-rotate-90' : ''}`}/>
+        <IoIosArrowDown size={"15px"} className={`transition-transform duration-200 ${open ? '-rotate-180' : ''}`}/>
         </button>
 
     { open && (
@@ -22,7 +24,7 @@ function NetworkSelector() {
     className='absolute flex flex-col mt-1 w-[95px]'
     >
         <button
-            className='button-base w-fill flex text-xs items-center p-2.5 rounded-md'
+            className='btn-base'
             onClick={()=> {
                 setSelectedNetwork(
                     selectedNetwork === "Mainnet" ? "Devnet" : "Mainnet")  

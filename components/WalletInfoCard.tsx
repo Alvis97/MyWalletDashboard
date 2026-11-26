@@ -8,6 +8,8 @@ import React, { useEffect, useState } from 'react'
 import TransactionHistory from './TransactionHistory';
 import { useNetwork } from './networkContext';
 import { connection } from 'next/server';
+import { LuSend } from 'react-icons/lu';
+import { MdCallReceived, MdOutlineWaterDrop } from 'react-icons/md';
 
 function WalletInfoCard() {
 
@@ -58,37 +60,64 @@ function WalletInfoCard() {
     }, [publicKey, selectedNetwork]);
 
   return (
-    <div className='flex flex-col justify-between h-full min-h-0 p-3 md:p-5'>
-        <div className='w-full flex justify-end'>
-            <Wallet size={30}/>
+    <div className='h-full'>
+    <div className='w-[90%] h-full flex flex-col justify-between gap-5 mx-auto sm:w-[80%] md:w-[70%] 2xl:w-[60%]'>
+
+        <div className='w-[95%] mx-auto flex flex-col pt-[10%]  md:pt-[5%] sm:flex-row justify-between gap-5 text-start'>
+            <div>
+            <p className='opacity-50'>Total balance:</p>
+       
+                { error ? (
+                    <p>---</p>
+                ) : loading ? (
+                    <>
+                    <div className='animate-pulse bg-neutral-300 rounded-lg h-7 mt-1 w-[150px] mb-2 dark:bg-neutral-700'/>
+                    <div className='animate-pulse bg-neutral-300 rounded-lg h-4 w-[100px] dark:bg-neutral-700'/>
+                    </>
+                )  : solBalance === 0 ? (
+                    <p className=''>Your wallet is empty</p>
+                ) : (
+                    <>
+                    <h1>${usdValue.toFixed(2)}</h1>
+                    <div className='flex gap-3 items-center'>
+                        <p className='opacity-50'>{solBalance.toFixed(2)} SOL </p>
+                        <span><p>+Daily rate</p></span>
+                    </div>   
+                </>
+                )}
+            </div>
+
+            <div className='flex justify-between md:gap-4 xl:gap-7'>
+                <div className='flex flex-col items-center justify-between gap-2'>
+                    <button className='btn-square bg-[var(--purple)]'><LuSend className='h-5 w-5'/></button>
+                    <p>Send</p>
+                </div>
+
+                <div className='flex flex-col items-center justify-between gap-2'>
+                    <button className='btn-square '><MdCallReceived className='h-5 w-5 fill-[var(--purple)]'/></button>
+                    <p>Receive</p>
+                </div>
+
+                <div className='flex flex-col items-center justify-between gap-2'>
+                    <button className='btn-square'><MdOutlineWaterDrop className='h-5 w-5 fill-[var(--purple)]'/></button>
+                    <p>Airdrop</p>
+                </div>
+                
+                
+                
+            </div>
         </div>
 
-        <div className='w-full flex flex-col flex-1 text-left justify-end p-2 pb-6 md:p-5'>
-            <p className='font-extralight text-xs md:text-s'>Balance:</p>
-
-         { error ? (
-            <p className='text-neutral-400 text-sm'>---</p>
-        ) : loading ? (
-            <>
-                <div className='animate-pulse bg-neutral-300 rounded-lg h-7 mt-1 w-[150px] mb-2 dark:bg-neutral-700'/>
-                <div className='animate-pulse bg-neutral-300 rounded-lg h-4 w-[100px] dark:bg-neutral-700'/>
-            </>
-        )  : solBalance === 0 ? (
-            <p className='text-neutral-400 text-sm'>Your wallet is empty</p>
-        ) : (
-            <>
-                <p className='font-light text-2xl md:text-4xl'>{solBalance.toFixed(2)} sol</p>
-                <p className='font-extralight text-xs md:text-s'>Total value: ${usdValue.toFixed(2)}</p>
-            </>
-        )}
-
-        </div>
-
-        <div className='card-inset p-2 pb-7 pt-3 flex flex-col h-[70%] md:p-5'>
-           <p className='font-extralight text-xs text-left pb-2 md:pb-4'>Transactions:</p>
+        <div className='glass-card p-2 pb-7 pt-3 flex flex-1 flex-col md:p-5'>
+            <div className='flex justify-between'>
+                <p className='text-sm'>Transactions:</p>
+                <a className='text-sm' href="">View all</a>
+            </div>
            <div className='flex-1 min-h-0 overflow-y-auto'>
             <TransactionHistory/>
            </div>
+        </div>
+
         </div>
     </div>
   )

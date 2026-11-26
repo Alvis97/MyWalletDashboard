@@ -15,3 +15,10 @@ export async function fetchSolPrice() {
         return null
     }
 }
+
+//Jupiter fetch token price
+export const fetchTokenPrice = async (mintAddress) => {
+  const response = await fetch(`/api/price?mint=${mintAddress}`);
+  const data = await response.json();
+  return data[mintAddress];
+};
